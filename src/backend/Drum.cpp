@@ -164,12 +164,13 @@ bool Drum::checkRange(const unsigned &min, const unsigned &max,
 
   auto posMinY = pos.y - _sizeSection.height / 2;
   auto posMaxY = pos.y + _sizeSection.height / 2;
-  
-  if (posMinY <= 0 ) posMinY = _countFigure * _sizeSection.height + posMinY;
-  if(posMaxY >= _countFigure * _sizeSection.height) posMaxY = posMaxY - _countFigure * _sizeSection.height;
+
+  if (posMinY <= 0) posMinY = _countFigure * _sizeSection.height + posMinY;
+  if (posMaxY >= _countFigure * _sizeSection.height)
+    posMaxY = posMaxY - _countFigure * _sizeSection.height;
 
   bool code = false;
-  
+
   if ((posMinY >= min && posMinY <= max) || (posMaxY <= max && posMaxY >= min))
     code = true;
 
@@ -181,10 +182,22 @@ std::vector<Figure> Drum::getFigureFromRange(const unsigned &min,
   if (min > max) return {};
 
   std::vector<Figure> figureInRange;
-  
-  for (const auto &figure : _drum) 
-    if (checkRange(min, max, figure)) figureInRange.push_back(figure);
-  
+
+  for (const auto &figure : _drum)
+
+    if (checkRange(min, max, figure)) {
+      Figure tmp = figure;
+      tmp.getPosition().y -= _sizeSection.height / 2;
+
+      if (tmp.getPosition().y >= _sizeSection.height * _countFigure &&
+          _direction == Direction::Down)
+        tmp.getPosition().y -= _sizeSection.height * _countFigure;
+      if (tmp.getPosition().y < 0 && _direction == Direction::Up)
+        tmp.getPosition().y += _sizeSection.height * _countFigure;
+
+      figureInRange.push_back(tmp);
+    }
+
   return figureInRange;
 }
 
