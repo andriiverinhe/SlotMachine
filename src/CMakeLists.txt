@@ -16,6 +16,11 @@ add_executable(${PROJECT_NAME}
     backend/Figure.cpp
     backend/SlotMachine.cpp
 
+    backend/Drum.hpp
+    backend/Drums.hpp
+    backend/Figure.hpp
+    backend/SlotMachine.hpp
+
     GUI/desktop/Controller.cpp
     GUI/desktop/Controller.hpp
 
