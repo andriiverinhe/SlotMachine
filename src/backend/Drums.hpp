@@ -1,26 +1,29 @@
 #pragma once
 
-#include "Drum.hpp"
-#include <vector>
 #include <memory>
+#include <vector>
 
-class Drums
-{
-private:
-    static constexpr unsigned COUNT_DRUM = 5;
+#include "Drum.hpp"
 
-    Size _sizeSectionDrum = {30, 30};
-    unsigned _countDrum;
-    std::vector<std::unique_ptr<Drum>> _drums;
+class Drums {
+ private:
+  static constexpr unsigned COUNT_DRUM = 5;
 
-    void CreateDrums();
+  Size _sizeSectionDrum = {30, 30};
+  unsigned _countDrum;
+  std::vector<std::unique_ptr<Drum>> _drums;
 
-public:
-    Drums(const Size& SizeSectionDrum, const unsigned& CountDrum);
-    ~Drums() = default;
+  void CreateDrums();
 
-    void start();
-    void stop();
-    
+ public:
+  Drums(const Size& SizeSectionDrum, const unsigned& CountDrum);
+  ~Drums() = default;
+
+  void signalToStart();
+
+  bool rotation();
+  void stop();
+  std::vector<std::vector<Figure>> getWinFigures(void);
+  std::vector<std::vector<Figure>> getFigureFromRange(const unsigned& min,
+                                         const unsigned& max);
 };
-

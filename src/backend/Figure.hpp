@@ -27,4 +27,6 @@ public:
     void move(const int &x, const int &y);
 
     Position &getPosition();
+    const Position &getPosition() const;
+    FigureType getType() const;
 };

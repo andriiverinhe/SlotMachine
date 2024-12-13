@@ -1,13 +1,14 @@
 #include "Figure.hpp"
 
-Figure::Figure(const FigureType &type, const Position &position) : _type(type), _position(position) {}
-void Figure::move(const int &x, const int &y)
-{
-    this->_position.x += x;
-    this->_position.y += y;
+Figure::Figure(const FigureType &type, const Position &position)
+    : _type(type), _position(position) {}
+void Figure::move(const int &x, const int &y) {
+  this->_position.x += x;
+  this->_position.y += y;
 }
 
-Position &Figure::getPosition()
-{
-    return _position;
-}
+Position &Figure::getPosition() { return _position; }
+
+const Position &Figure::getPosition() const { return _position; }
+
+FigureType Figure::getType() const { return _type; }
