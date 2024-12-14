@@ -20,9 +20,13 @@ add_executable(${PROJECT_NAME}
     backend/Drums.hpp
     backend/Figure.hpp
     backend/SlotMachine.hpp
+    
+    backend/ScoreManager.cpp
+    backend/ScoreManager.hpp
 
     GUI/desktop/Controller.cpp
     GUI/desktop/Controller.hpp
+
 
     GUI/desktop/main.cpp
     GUI/desktop/View.cpp
