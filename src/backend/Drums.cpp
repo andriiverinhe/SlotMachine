@@ -28,6 +28,19 @@ void Drums::rotation() {
   for (auto& drum : _drums) drum.rotation();
 }
 
+bool Drums::normalize(void) {
+  unsigned c = 0;
+
+  for (auto& drum : _drums) {
+    if (drum.isCorrectFigurePositions())
+      c++;
+    else
+      drum.rotation();
+  }
+  
+  return c == _drums.size();
+}
+
 std::vector<std::vector<Figure>> Drums::getDrums(void) {
   std::vector<std::vector<Figure>> res;
   res.reserve(_drums.size());

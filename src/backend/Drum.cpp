@@ -16,7 +16,7 @@ void Drum::CreateDrum(const unsigned& countFigure, const Coordinates& startPos,
     const FigureType t = getRandomFigure();
     const Size s = sizeOneFigure;
     const Coordinates c = {startPos.x, startPos.y + ((int)i * s.height)};
-    
+
     _drum.push_back(Figure(t, c, s));
   }
 }
@@ -38,7 +38,7 @@ void Drum::rotation() {
 
   const Direction& H = _direction[DIRECTION_HORIZONTAL];
   const Direction& V = _direction[DIRECTION_VERTICAL];
-  const unsigned size = 1;
+  const unsigned size = 10;
 
   for (auto& figure : _drum) {
     figure.move(H, size, V, size);
@@ -70,4 +70,13 @@ std::vector<Figure> Drum::getDrum(void) {
   }
 
   return tmp;
+}
+
+bool Drum::isCorrectFigurePositions() {
+  if (_drum[0].getLocation().y == (-_sizeOneFigure.height)) return true;
+
+  for (int i = 0; i < _drum.size(); i++)
+    if (_drum[0].getLocation().y == i * _sizeOneFigure.height) return true;
+
+  return false;
 }

@@ -25,12 +25,13 @@ void SlotMachine::UserInput(const Action &action) {
     case State::WORK:
       if (!_time.isOverTime())
         _drums.rotation();
-      else
+      else if(_drums.normalize())
         _state = State::SCORING;
       break;
 
     case State::STOP:
       break;
+
     case State::SCORING:
       break;
 

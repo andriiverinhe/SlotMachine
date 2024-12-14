@@ -16,5 +16,6 @@ class Drums {
   ~Drums() = default;
 
   void rotation();
+  bool normalize(void);
   std::vector<std::vector<Figure>> getDrums(void);
 };
