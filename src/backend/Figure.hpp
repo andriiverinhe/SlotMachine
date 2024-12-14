@@ -1,32 +1,43 @@
 #pragma once
 
-struct Position
-{
-    int x;
-    int y;
+struct Coordinates {
+  int x;
+  int y;
 };
 
-enum class FigureType
-{
-    circle = 0,
-    triangle,
-    square,
-    star
+struct Size {
+  int width;
+  int height;
 };
 
-constexpr unsigned CountFigureType = (unsigned)FigureType::star + 1;
+enum class FigureType { circle = 0, triangle, square, star };
 
-class Figure
-{
-private:
-    Position _position;
-    FigureType _type;
+enum class Direction { Up, Down, Left, Right, No };
 
-public:
-    Figure(const FigureType &, const Position &);
-    void move(const int &x, const int &y);
+class Figure {
+ private:
+  FigureType _figure;
+  Coordinates _location;
 
-    Position &getPosition();
-    const Position &getPosition() const;
-    FigureType getType() const;
+  Size _size;
+
+ public:
+  Figure(const FigureType&,const Coordinates&,const Size&);
+  ~Figure();
+
+  FigureType getType(void) const;
+
+  Coordinates getLocation(void);
+  const Coordinates& getLocation(void) const;
+
+  Size getSize(void);
+
+  void setLocation(Coordinates);
+  void setSize(Size);
+  void setType(FigureType);
+
+  void move(const Direction& H, const unsigned& sizeH, const Direction& V,
+            const unsigned& sizeV);
 };
+
+FigureType getRandomFigure();

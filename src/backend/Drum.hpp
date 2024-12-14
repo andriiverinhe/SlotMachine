@@ -1,64 +1,29 @@
-#pragma once
-
-#include <atomic>
-#include <memory>
-#include <thread>
 #include <vector>
 
 #include "Figure.hpp"
 
-enum class Direction { Up, Down };
-
-struct Size {
-  unsigned width = 30;
-  unsigned height = 30;
-};
-
-struct Time {
-  std::chrono::steady_clock::time_point _start;
-  std::chrono::steady_clock::time_point _end;
-
-  double time = 3;
-  bool timeIsSet = false;
-
-  void recalculateTheTime();
-  bool isOverTime(void);
-};
-
 class Drum {
  private:
-  static constexpr unsigned COUNT_FIGURE = 8;
-  static constexpr double TIME_FOR_WAIT = 3;
+  const unsigned DIRECTION_HORIZONTAL = 0;
+  const unsigned DIRECTION_VERTICAL = 1;
 
-  unsigned _countFigure;
   std::vector<Figure> _drum;
-  Direction _direction = Direction::Down;
-  Size _sizeSection;
+  
+  Coordinates _startPos;
+  Size _sizeOneFigure;
+  
+  void CreateDrum(const unsigned&, const Coordinates&, const Size&);
 
-  bool _isRotation = false;
-
-  Time _time;
-
-  void CreateDrum();
-  Position getPositionFigure(unsigned indexSection);
-  bool checkRange(const unsigned &, const unsigned &, const Figure &);
+  Direction _direction[2] = {Direction::No, Direction::No};
 
  public:
-  Drum(void);
-  Drum(const unsigned count, const Size &SizeSection, const double &time);
-  Drum(const unsigned count, const Direction direction, const Size &SizeSection,
-       const double &time);
+  Drum(const unsigned&, const Coordinates&, const Size&);
+  ~Drum();
 
-  ~Drum() = default;
+  void setDirection(const Direction&, const Direction&);
+  const Direction* getDirection(void);
 
-  void setIsRotation(const bool &);
-  bool getIsRotation(void);
+  std::vector<Figure> getDrum(void);
 
   void rotation();
-  void normalize();
-
-  std::vector<Figure> getWinFigure(const unsigned &CountWin);
-
-  std::vector<Figure> getFigureFromRange(const unsigned &min,
-                                         const unsigned &max);
 };

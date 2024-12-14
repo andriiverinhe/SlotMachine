@@ -1,64 +1,36 @@
 #include "Drums.hpp"
 
-Drums::Drums(const Size &SizeSectionDrum, const unsigned &CountDrum)
-    : _sizeSectionDrum(SizeSectionDrum), _countDrum(CountDrum) {
-  CreateDrums();
+Drums::Drums(const unsigned& numDrums, const unsigned& countFigure,
+             const Coordinates& startPos, const Size& sizeOneFigure) {
+  CreateDrums(numDrums, countFigure, startPos, sizeOneFigure);
 }
 
-void Drums::CreateDrums() {
-  if (_countDrum <= 0) _countDrum = COUNT_DRUM;
-  _drums.reserve(_countDrum);
+void Drums::CreateDrums(const unsigned& numDrums, const unsigned& countFigure,
+                        const Coordinates& startPos,
+                        const Size& sizeOneFigure) {
+  if (_drums.capacity() < numDrums) _drums.reserve(numDrums);
 
-  for (unsigned i = 0; i < _countDrum; i++) {
-    if ((int)i % 2 == 0)
-      _drums.push_back(
-          std::make_unique<Drum>(8, Direction::Down, _sizeSectionDrum, 3));
+  for (unsigned i = 0; i < numDrums; ++i)
+    _drums.push_back(Drum(countFigure, startPos, sizeOneFigure));
+  setDirection();
+}
+
+void Drums::setDirection(void) {
+  for (int i = 0; i < _drums.size(); ++i) {
+    if (i % 2 == 0)
+      _drums[i].setDirection(Direction::No, Direction::Down);
     else
-      _drums.push_back(
-          std::make_unique<Drum>(8, Direction::Up, _sizeSectionDrum, 3));
+      _drums[i].setDirection(Direction::No, Direction::Up);
   }
 }
 
-void Drums::signalToStart() {
-  for (const auto &drum : _drums) drum->setIsRotation(true);
+void Drums::rotation() {
+  for (auto& drum : _drums) drum.rotation();
 }
 
-bool Drums::rotation() {
-  bool isStopedDrums = true;
-
-  for (const auto &drum : _drums) {
-    if (drum->getIsRotation() == true) {
-      drum->rotation();
-      if (drum->getIsRotation() == true) isStopedDrums = false;
-    }
-  }
-
-  return isStopedDrums;
+std::vector<std::vector<Figure>> Drums::getDrums(void) {
+  std::vector<std::vector<Figure>> res;
+  res.reserve(_drums.size());
+  for (auto& drum : _drums) res.push_back(drum.getDrum());
+  return res;
 }
-
-void Drums::stop() {
-  for (const auto &drum : _drums) drum->normalize();
-}
-
-std::vector<std::vector<Figure>> Drums::getWinFigures(void) {
-  std::vector<std::vector<Figure>> win;
-  win.reserve(_countDrum);
-  for (const auto &drum : _drums) win.push_back(drum->getWinFigure(3));
-  return win;
-}
-
-std::vector<std::vector<Figure>> Drums::getFigureFromRange(
-    const unsigned &min, const unsigned &max) {
-      
-  std::vector<std::vector<Figure>> figures;
-  for (const auto &drum : _drums) {
-    figures.push_back(drum->getFigureFromRange(min, max));
-  }
-  return figures;
-}
-
-// int main() {
-//   Drums drums({30, 30}, 5);
-//   drums.rotation();
-//   return 0;
-// }
