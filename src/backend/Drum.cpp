@@ -72,6 +72,21 @@ std::vector<Figure> Drum::getDrum(void) {
   return tmp;
 }
 
+std::vector<Figure> Drum::getFigureWins() {
+  std::vector<Figure> res;
+
+  for (int i = 0; i < _drum.size() && res.size() < 3; i++) {
+    if (_drum[i].getLocation().y == 0 * _sizeOneFigure.height)
+      res.push_back(_drum[i]);
+    if (_drum[i].getLocation().y == 1 * _sizeOneFigure.height)
+      res.push_back(_drum[i]);
+    if (_drum[i].getLocation().y == 2 * _sizeOneFigure.height)
+      res.push_back(_drum[i]);
+  }
+
+  return res;
+}
+
 bool Drum::isCorrectFigurePositions() {
   if (_drum[0].getLocation().y == (-_sizeOneFigure.height)) return true;
 

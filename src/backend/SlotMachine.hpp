@@ -20,12 +20,16 @@ struct Time {
 
 struct GameInfo {
   std::vector<std::vector<Figure>> _data;
+  unsigned point;
 };
 
 class SlotMachine {
  private:
   Drums _drums;
   Time _time;
+
+  GameInfo _gameInfo;
+  
   State _state = State::START;
 
  public:

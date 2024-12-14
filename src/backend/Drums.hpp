@@ -17,5 +17,7 @@ class Drums {
 
   void rotation();
   bool normalize(void);
+
   std::vector<std::vector<Figure>> getDrums(void);
+  std::vector<std::vector<Figure>> getFigureWins(void);
 };

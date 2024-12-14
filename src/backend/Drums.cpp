@@ -37,7 +37,7 @@ bool Drums::normalize(void) {
     else
       drum.rotation();
   }
-  
+
   return c == _drums.size();
 }
 
@@ -45,5 +45,11 @@ std::vector<std::vector<Figure>> Drums::getDrums(void) {
   std::vector<std::vector<Figure>> res;
   res.reserve(_drums.size());
   for (auto& drum : _drums) res.push_back(drum.getDrum());
+  return res;
+}
+
+std::vector<std::vector<Figure>> Drums::getFigureWins(void) {
+  std::vector<std::vector<Figure>> res;
+  for (auto& drum : _drums) res.push_back(drum.getFigureWins());
   return res;
 }

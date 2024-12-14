@@ -1,4 +1,5 @@
 #include "SlotMachine.hpp"
+#include "ScoreManager.hpp"
 
 SlotMachine::SlotMachine() : _drums(5, 8, {0, 0}, {240, 240}) {}
 
@@ -25,24 +26,27 @@ void SlotMachine::UserInput(const Action &action) {
     case State::WORK:
       if (!_time.isOverTime())
         _drums.rotation();
-      else if(_drums.normalize())
+      else if (_drums.normalize())
         _state = State::SCORING;
       break;
 
-    case State::STOP:
-      break;
-
     case State::SCORING:
+      auto res = _drums.getFigureWins();
+      ScoreManager manager(res);
+      _gameInfo.point = manager.getScore(); 
       break;
 
-    case State::NoSTATE:
-    default:
-      break;
+    // case State::STOP:
+    //   break;
+    // case State::NoSTATE:
+    // default:
+    //   break;
   }
 }
 
 GameInfo SlotMachine::getGameInfoForUpdateView(void) {
-  return {_drums.getDrums()};
+  _gameInfo._data = _drums.getDrums();
+  return _gameInfo;
 }
 
 // int main() {
