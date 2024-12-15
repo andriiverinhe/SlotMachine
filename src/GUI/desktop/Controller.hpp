@@ -16,10 +16,14 @@ class SlotMachineController : public QObject {
   void stopGame();
 
  private:
-  SlotMachine *model_;
-  SlotMachineView *view_;
-  Action action = Action::NoAction;
+  SlotMachine *_model;
+  SlotMachineView *_view;
+  Action _action = Action::NoAction;
 
   void ProcessingUserInput();
   void UpdateView();
+  
+  bool connectToBtn();
+  
+  bool createConnectWithTimer(const int& msec, void (SlotMachineController::*func)());
 };

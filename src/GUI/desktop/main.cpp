@@ -11,8 +11,5 @@ int main(int argc, char *argv[]) {
   SlotMachineView view;
   SlotMachineController controller(&model, &view);
 
-  view.show();
-  view.update();
-
   return app.exec();
 }

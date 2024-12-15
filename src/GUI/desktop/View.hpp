@@ -1,39 +1,58 @@
 #pragma once
 
+#include <QFrame>
 #include <QHBoxLayout>
+#include <QLabel>
 #include <QPaintEvent>
 #include <QPainter>
 #include <QPainterPath>
 #include <QPushButton>
 #include <QWidget>
 
-#include "../../backend/SlotMachine.hpp"
+#include "../../backend/SlotMachineInfo.hpp"
 
 class SlotMachineView : public QWidget {
   Q_OBJECT
-
- private:
-  GameInfo gameInfo;
 
  public:
   SlotMachineView(QWidget *parent = nullptr);
   ~SlotMachineView();
 
   void updateView(const GameInfo &gameInfo);
+  bool isGoodData(void) const;
+
+  const QPushButton *getStartButton(void) const;
+  const QPushButton *getStopButton(void) const;
 
  protected:
   void paintEvent(QPaintEvent *event) override;
 
- public:
-  QPushButton *startButton_;
-  QPushButton *stopButton_;
-  QHBoxLayout *layout_;
-  QVBoxLayout *buttonLayout;
+ private:
+  bool isGood = false;
 
-  void drawStar(int x, int y, int size);
-  void drawTriangle(int x, int y, int size);
-  void drawSquare(int x, int y, int size);
-  void drawCircle(int x, int y, int size);
+  static constexpr int COUNT_DRUMS = 5;
+  static constexpr int COUNT_FIGURE_FOR_DRUM = 3;
 
+  unsigned margin = 100;
+  GameInfo gameInfo;
+
+  QPushButton *_startBtn;
+  QPushButton *_stopBtn;
+  QLabel *_resultLabel;
+
+  QVBoxLayout *_menuLayout;
+
+  bool createBtn();
+  bool createResultLabel();
+
+  void DrawFigure(const FigureType &, int x, int y, int width, int height);
+  void drawStar(QPainter &painter, int x, int y, int width, int height);
+  void drawTriangle(QPainter &painter, int x1, int y1, int x2, int y2, int x3,
+                    int y3);
+  void drawTriangle(QPainter &painter, int x, int y, int width, int height);
+  void drawSquare(QPainter &painter, int x, int y, int width, int height);
+  void drawCircle(QPainter &painter, int x, int y, int width, int height);
+
+  void updateResult(const QString &result);
   void resizeEvent(QResizeEvent *event);
 };
