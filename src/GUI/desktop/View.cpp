@@ -132,21 +132,21 @@ void SlotMachineView::paintEvent(QPaintEvent *event) {
   QPainter painter(this);
   painter.setRenderHint(QPainter::Antialiasing);
 
-  int fieldWidth = gi._sizeOneFigure.width * COUNT_DRUMS;
-  int fieldHeight = gi._sizeOneFigure.height * COUNT_FIGURE_FOR_DRUM;
+  int fieldWidth = gi.sizeOneFigure.width * COUNT_DRUMS;
+  int fieldHeight = gi.sizeOneFigure.height * COUNT_FIGURE_FOR_DRUM;
 
   painter.setPen(Qt::black);
   painter.drawRect(margin, margin, fieldWidth, fieldHeight);
 
-  for (int i = 0; i < gi._data.size(); i++) {
+  for (int i = 0; i < gi.data.size(); i++) {
     const int figureX = margin + i * (fieldWidth / COUNT_DRUMS);
-    for (int j = 0; j < gi._data[i].size(); j++) {
-      const int figureY = margin + gi._data[i][j].getLocation().y;
+    for (int j = 0; j < gi.data[i].size(); j++) {
+      const int figureY = margin + gi.data[i][j].getLocation().y;
 
-      if (!gi._data.empty())
-        if (!gi._data[i].empty()) {
-          DrawFigure(gi._data[i][j].getType(), figureX, figureY,
-                     gi._sizeOneFigure.width, gi._sizeOneFigure.height);
+      if (!gi.data.empty())
+        if (!gi.data[i].empty()) {
+          DrawFigure(gi.data[i][j].getType(), figureX, figureY,
+                     gi.sizeOneFigure.width, gi.sizeOneFigure.height);
           updateResult(QString::number(gi.point));
         }
     }
@@ -155,9 +155,9 @@ void SlotMachineView::paintEvent(QPaintEvent *event) {
 
 void SlotMachineView::DrawFigure(const FigureType &type, int x, int y,
                                  int width, int height) {
-  const int fieldWidth = gameInfo._sizeOneFigure.width * COUNT_DRUMS;
+  const int fieldWidth = gameInfo.sizeOneFigure.width * COUNT_DRUMS;
   const int fieldHeight =
-      gameInfo._sizeOneFigure.height * COUNT_FIGURE_FOR_DRUM;
+      gameInfo.sizeOneFigure.height * COUNT_FIGURE_FOR_DRUM;
 
   QPainter painter(this);
   painter.setClipRect(margin, margin, fieldWidth + 1, fieldHeight + 1);
@@ -268,7 +268,7 @@ void SlotMachineView::drawCircle(QPainter &painter, int x, int y, int width,
 }
 
 void SlotMachineView::resizeEvent(QResizeEvent *event) {
-  int leftMargin = margin + gameInfo._sizeOneFigure.width * COUNT_DRUMS;
+  int leftMargin = margin + gameInfo.sizeOneFigure.width * COUNT_DRUMS;
   if (_menuLayout) _menuLayout->setContentsMargins(leftMargin, 10, 10, 10);
   QWidget::resizeEvent(event);
 }

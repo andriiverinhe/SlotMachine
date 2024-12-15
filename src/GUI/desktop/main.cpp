@@ -1,10 +1,14 @@
 #include <QApplication>
+#include <ctime>
+#include <cstdlib>
+
 
 #include "../../backend/SlotMachine.hpp"
 #include "Controller.hpp"
 #include "View.hpp"
 
 int main(int argc, char *argv[]) {
+  srand(static_cast<unsigned int>(time(0)));
   QApplication app(argc, argv);
 
   SlotMachine model;

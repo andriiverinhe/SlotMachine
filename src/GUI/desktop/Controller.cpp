@@ -59,13 +59,13 @@ SlotMachineController::SlotMachineController(SlotMachine *model,
     return;
   }
 
-  if (!createConnectWithTimer(10, &SlotMachineController::UpdateView)) {
+  if (!createConnectWithTimer(25, &SlotMachineController::UpdateView)) {
     QMessageBox::critical(nullptr, "Error", "Error update view.");
     QCoreApplication::exit(1);
     return;
   }
 
-  if (!createConnectWithTimer(10,
+  if (!createConnectWithTimer(25,
                               &SlotMachineController::ProcessingUserInput)) {
     QMessageBox::critical(nullptr, "Error", "Error processing user input.");
     QCoreApplication::exit(1);
