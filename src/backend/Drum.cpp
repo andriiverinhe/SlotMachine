@@ -1,5 +1,6 @@
 #include "Drum.hpp"
 
+#include <cmath>
 Drum::Drum(const unsigned& countFigure, const Coordinates& startPos,
            const Size& sizeOneFigure) {
   CreateDrum(countFigure, startPos, sizeOneFigure);
@@ -30,7 +31,7 @@ void Drum::setDirection(const Direction& H, const Direction& V) {
 
 const Direction* Drum::getDirection(void) { return _direction; }
 
-void Drum::rotation() {
+void Drum::rotation(const unsigned& size) {
   if (_direction[DIRECTION_HORIZONTAL] == Direction::No &&
       _direction[DIRECTION_VERTICAL] == Direction::No)
     return;
@@ -38,7 +39,6 @@ void Drum::rotation() {
 
   const Direction& H = _direction[DIRECTION_HORIZONTAL];
   const Direction& V = _direction[DIRECTION_VERTICAL];
-  const unsigned size = 10;
 
   for (auto& figure : _drum) {
     figure.move(H, size, V, size);
@@ -52,9 +52,12 @@ void Drum::rotation() {
     }
     if (V == Direction::Up) {
       int p1 = _startPos.y - _sizeOneFigure.height;
-      if (figure.getLocation().y == p1)
-        figure.setLocation({figure.getLocation().x,
-                            _sizeOneFigure.height * ((int)_drum.size() - 1)});
+      if (figure.getLocation().y < p1) {
+        auto value = std::abs(figure.getLocation().y) - std::abs(p1);
+        figure.setLocation(
+            {figure.getLocation().x,
+             _sizeOneFigure.height * ((int)_drum.size() - 1) - value});
+      }
     }
   }
 }

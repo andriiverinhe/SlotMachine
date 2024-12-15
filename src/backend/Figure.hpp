@@ -10,6 +10,7 @@ struct Size {
   int height;
 };
 
+constexpr int COUNT_FIGURE = 4;
 enum class FigureType { circle = 0, triangle, square, star };
 
 enum class Direction { Up, Down, Left, Right, No };
@@ -18,11 +19,10 @@ class Figure {
  private:
   FigureType _figure;
   Coordinates _location;
-
   Size _size;
 
  public:
-  Figure(const FigureType&,const Coordinates&,const Size&);
+  Figure(const FigureType&, const Coordinates&, const Size&);
   ~Figure();
 
   FigureType getType(void) const;
@@ -36,8 +36,8 @@ class Figure {
   void setSize(Size);
   void setType(FigureType);
 
-  void move(const Direction& H, const unsigned& sizeH, const Direction& V,
-            const unsigned& sizeV);
+  void move(const Direction&, const unsigned&, const Direction&,
+            const unsigned&);
 };
 
 FigureType getRandomFigure();

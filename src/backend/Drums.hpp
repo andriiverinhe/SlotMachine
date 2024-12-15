@@ -15,8 +15,8 @@ class Drums {
   Drums(const unsigned&, const unsigned&, const Coordinates&, const Size&);
   ~Drums() = default;
 
-  void rotation();
-  bool normalize(void);
+  void rotation(const unsigned& size);
+  bool normalize(const unsigned& size);
 
   std::vector<std::vector<Figure>> getDrums(void);
   std::vector<std::vector<Figure>> getFigureWins(void);

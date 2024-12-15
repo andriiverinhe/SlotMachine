@@ -8,13 +8,11 @@ class Drum {
   const unsigned DIRECTION_VERTICAL = 1;
 
   std::vector<Figure> _drum;
-
   Coordinates _startPos;
   Size _sizeOneFigure;
+  Direction _direction[2] = {Direction::No, Direction::No};
 
   void CreateDrum(const unsigned&, const Coordinates&, const Size&);
-
-  Direction _direction[2] = {Direction::No, Direction::No};
 
  public:
   Drum(const unsigned&, const Coordinates&, const Size&);
@@ -26,6 +24,6 @@ class Drum {
   std::vector<Figure> getDrum(void);
   std::vector<Figure> getFigureWins();
 
-  void rotation();
+  void rotation(const unsigned& size);
   bool isCorrectFigurePositions();
 };

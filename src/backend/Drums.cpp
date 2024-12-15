@@ -24,18 +24,18 @@ void Drums::setDirection(void) {
   }
 }
 
-void Drums::rotation() {
-  for (auto& drum : _drums) drum.rotation();
+void Drums::rotation(const unsigned& size) {
+  for (auto& drum : _drums) drum.rotation(size);
 }
 
-bool Drums::normalize(void) {
+bool Drums::normalize(const unsigned& size) {
   unsigned c = 0;
 
   for (auto& drum : _drums) {
     if (drum.isCorrectFigurePositions())
       c++;
     else
-      drum.rotation();
+      drum.rotation(size);
   }
 
   return c == _drums.size();

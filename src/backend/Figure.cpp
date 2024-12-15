@@ -1,5 +1,4 @@
 #include "Figure.hpp"
-
 #include <random>
 
 Figure::Figure(const FigureType& type, const Coordinates& location,
@@ -47,4 +46,6 @@ void Figure::move(const Direction& H, const unsigned& sizeH, const Direction& V,
   }
 }
 
-FigureType getRandomFigure() { return static_cast<FigureType>(rand() % 4); }
+FigureType getRandomFigure() {
+  return static_cast<FigureType>(rand() % COUNT_FIGURE);
+}
