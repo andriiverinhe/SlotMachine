@@ -33,12 +33,13 @@ class SlotMachine {
  private:
   Drums _drums;
   Time _time;
-  GameInfo _gameInfo;
+  SlotMachineInfo _info;
 
   State _state = State::START;
   unsigned speed = 1;
 
-  void initGameInfo(const unsigned& countDrum, const Size& sizeOneFigure);
+  void initSlotMachineInfo(const unsigned& countDrum,
+                           const Size& sizeOneFigure);
   void rotate(const double& remainsTime, const unsigned& maxSpeed, bool& stop);
 
  public:
@@ -49,5 +50,5 @@ class SlotMachine {
   ~SlotMachine() = default;
 
   void UserInput(const Action& action);
-  GameInfo getGameInfoForUpdateView(void);
+  SlotMachineInfo getGameInfoForUpdateView(void);
 };

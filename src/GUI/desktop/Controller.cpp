@@ -2,6 +2,7 @@
 
 #include <QCoreApplication>
 #include <QMessageBox>
+#include <QPushButton>
 #include <QTimer>
 #include <iostream>
 
@@ -42,25 +43,25 @@ SlotMachineController::SlotMachineController(SlotMachine *model,
                                              SlotMachineView *view)
     : _model(model), _view(view) {
   if (_view == nullptr || _model == nullptr) {
-    QMessageBox::critical(nullptr, "Error", "View or Model is null");
+    QMessageBox::critical(nullptr, "Error", "View or Model is null.");
     QCoreApplication::exit(1);
     return;
   }
 
   if (_view->isGoodData() == false) {
-    QMessageBox::critical(nullptr, "Error", "View problem");
+    QMessageBox::critical(nullptr, "Error", "Problems with the view.");
     QCoreApplication::exit(1);
     return;
   }
 
   if (!connectToBtn()) {
-    QMessageBox::critical(nullptr, "Error", "Error connect to button.");
+    QMessageBox::critical(nullptr, "Error", "Error connecting to button.");
     QCoreApplication::exit(1);
     return;
   }
 
   if (!createConnectWithTimer(25, &SlotMachineController::UpdateView)) {
-    QMessageBox::critical(nullptr, "Error", "Error update view.");
+    QMessageBox::critical(nullptr, "Error", "Error updating view.");
     QCoreApplication::exit(1);
     return;
   }
@@ -84,10 +85,17 @@ void SlotMachineController::ProcessingUserInput() {
   if (_model) {
     _model->UserInput(_action);
     _action = Action::NoAction;
+  } else {
+    QMessageBox::critical(nullptr, "Error", "Error processing user input.");
+    QCoreApplication::exit(1);
   }
 }
 
 void SlotMachineController::UpdateView() {
-  if (_view && _view->isGoodData())
+  if (_view && _view->isGoodData()) {
     _view->updateView(_model->getGameInfoForUpdateView());
+  } else {
+    QMessageBox::critical(nullptr, "Error", "Error updating view.");
+    QCoreApplication::exit(1);
+  }
 }

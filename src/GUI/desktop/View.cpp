@@ -1,6 +1,8 @@
 #include "View.hpp"
 
+#include <QFrame>
 #include <QHBoxLayout>
+#include <QLabel>
 #include <QMessageBox>
 #include <QPainter>
 #include <QPainterPath>
@@ -106,9 +108,9 @@ SlotMachineView::SlotMachineView(QWidget *parent) : QWidget(parent) {
 
 SlotMachineView::~SlotMachineView() {}
 
-void SlotMachineView::updateView(const GameInfo &gameInfo) {
+void SlotMachineView::updateView(const SlotMachineInfo &info) {
   if (isGood) {
-    this->gameInfo = gameInfo;
+    _info = info;
     repaint();
   }
 }
@@ -121,13 +123,14 @@ const QPushButton *SlotMachineView::getStopButton(void) const {
 }
 
 void SlotMachineView::updateResult(const QString &result) {
-  if (isGood) _resultLabel->setText("Winning: " + result);
+  if (isGood)
+    if (_resultLabel) _resultLabel->setText("Winning: " + result);
 }
 
 void SlotMachineView::paintEvent(QPaintEvent *event) {
   if (!isGood) return;
 
-  const GameInfo gi = gameInfo;
+  const SlotMachineInfo gi = _info;
 
   QPainter painter(this);
   painter.setRenderHint(QPainter::Antialiasing);
@@ -143,21 +146,17 @@ void SlotMachineView::paintEvent(QPaintEvent *event) {
     for (int j = 0; j < gi.data[i].size(); j++) {
       const int figureY = margin + gi.data[i][j].getLocation().y;
 
-      if (!gi.data.empty())
-        if (!gi.data[i].empty()) {
-          DrawFigure(gi.data[i][j].getType(), figureX, figureY,
-                     gi.sizeOneFigure.width, gi.sizeOneFigure.height);
-          updateResult(QString::number(gi.point));
-        }
+      DrawFigure(gi.data[i][j].getType(), figureX, figureY,
+                 gi.sizeOneFigure.width, gi.sizeOneFigure.height);
+      updateResult(QString::number(gi.point));
     }
   }
 }
 
 void SlotMachineView::DrawFigure(const FigureType &type, int x, int y,
                                  int width, int height) {
-  const int fieldWidth = gameInfo.sizeOneFigure.width * COUNT_DRUMS;
-  const int fieldHeight =
-      gameInfo.sizeOneFigure.height * COUNT_FIGURE_FOR_DRUM;
+  const int fieldWidth = _info.sizeOneFigure.width * COUNT_DRUMS;
+  const int fieldHeight = _info.sizeOneFigure.height * COUNT_FIGURE_FOR_DRUM;
 
   QPainter painter(this);
   painter.setClipRect(margin, margin, fieldWidth + 1, fieldHeight + 1);
@@ -268,7 +267,7 @@ void SlotMachineView::drawCircle(QPainter &painter, int x, int y, int width,
 }
 
 void SlotMachineView::resizeEvent(QResizeEvent *event) {
-  int leftMargin = margin + gameInfo.sizeOneFigure.width * COUNT_DRUMS;
-  if (_menuLayout) _menuLayout->setContentsMargins(leftMargin, 10, 10, 10);
+  int leftMargin = margin + _info.sizeOneFigure.width * COUNT_DRUMS;
+  if (_menuLayout) _menuLayout->setContentsMargins(leftMargin, 0, 0, 0);
   QWidget::resizeEvent(event);
 }

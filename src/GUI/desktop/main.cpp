@@ -1,7 +1,6 @@
 #include <QApplication>
-#include <ctime>
 #include <cstdlib>
-
+#include <ctime>
 
 #include "../../backend/SlotMachine.hpp"
 #include "Controller.hpp"

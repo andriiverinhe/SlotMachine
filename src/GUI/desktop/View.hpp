@@ -1,15 +1,15 @@
 #pragma once
 
-#include <QFrame>
-#include <QHBoxLayout>
-#include <QLabel>
-#include <QPaintEvent>
-#include <QPainter>
-#include <QPainterPath>
-#include <QPushButton>
 #include <QWidget>
 
 #include "../../backend/SlotMachineInfo.hpp"
+
+class QPushButton;
+class QLabel;
+class QPainter;
+class QPaintEvent;
+class QVBoxLayout;
+class QResizeEvent;
 
 class SlotMachineView : public QWidget {
   Q_OBJECT
@@ -18,7 +18,7 @@ class SlotMachineView : public QWidget {
   SlotMachineView(QWidget *parent = nullptr);
   ~SlotMachineView();
 
-  void updateView(const GameInfo &gameInfo);
+  void updateView(const SlotMachineInfo &info);
   bool isGoodData(void) const;
 
   const QPushButton *getStartButton(void) const;
@@ -34,7 +34,7 @@ class SlotMachineView : public QWidget {
   static constexpr int COUNT_FIGURE_FOR_DRUM = 3;
 
   unsigned margin = 100;
-  GameInfo gameInfo;
+  SlotMachineInfo _info;
 
   QPushButton *_startBtn;
   QPushButton *_stopBtn;

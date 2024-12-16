@@ -22,8 +22,9 @@ class SlotMachineController : public QObject {
 
   void ProcessingUserInput();
   void UpdateView();
-  
+
   bool connectToBtn();
-  
-  bool createConnectWithTimer(const int& msec, void (SlotMachineController::*func)());
+
+  bool createConnectWithTimer(const int &msec,
+                              void (SlotMachineController::*func)());
 };

@@ -4,23 +4,23 @@
 
 using namespace std::chrono;
 
-void SlotMachine::initGameInfo(const unsigned& countDrum,
-                               const Size& sizeOneFigure) {
-  _gameInfo.data.reserve(countDrum);
-  _gameInfo.sizeOneFigure = sizeOneFigure;
-  _gameInfo.point = DEFAULT_POINT;
+void SlotMachine::initSlotMachineInfo(const unsigned& countDrum,
+                                      const Size& sizeOneFigure) {
+  _info.data.reserve(countDrum);
+  _info.sizeOneFigure = sizeOneFigure;
+  _info.point = DEFAULT_POINT;
 }
 
 SlotMachine::SlotMachine()
     : _drums(DEFAULT_DRUMS, DEFAULT_FIGURE_FROM_DRUM, DEFAULT_COORDINATES,
              {DEFAULT_WIDTH, DEFAULT_HEIGHT}) {
-  initGameInfo(DEFAULT_DRUMS, {DEFAULT_WIDTH, DEFAULT_HEIGHT});
+  initSlotMachineInfo(DEFAULT_DRUMS, {DEFAULT_WIDTH, DEFAULT_HEIGHT});
 }
 
 SlotMachine::SlotMachine(const unsigned& countDrum, const unsigned& countFigure,
                          const Coordinates& startPos, const Size& sizeOneFigure)
     : _drums(countDrum, countFigure, startPos, sizeOneFigure) {
-  initGameInfo(countDrum, sizeOneFigure);
+  initSlotMachineInfo(countDrum, sizeOneFigure);
 }
 
 double Time::getRemains(void) {
@@ -58,7 +58,7 @@ void SlotMachine::UserInput(const Action& action) {
     case State::START:
       if (action == Action::Start) {
         _time.calculateTheTime();
-        _gameInfo.point = DEFAULT_POINT;
+        _info.point = DEFAULT_POINT;
         speed = 1;
         _state = State::WORK;
       }
@@ -66,7 +66,7 @@ void SlotMachine::UserInput(const Action& action) {
 
     case State::STOP: {
       bool stop = false;
-      const unsigned maxSpeed = (_gameInfo.sizeOneFigure.height * 0.21);
+      const unsigned maxSpeed = (_info.sizeOneFigure.height * 0.21);
       rotate(DEFAULT_TIME_REMAINS, maxSpeed, stop);
       if (stop == true) {
         _time.time = DEFAULT_TIME;
@@ -82,7 +82,7 @@ void SlotMachine::UserInput(const Action& action) {
         _time.calculateTheTime();
       } else {
         bool stop = false;
-        const unsigned maxSpeed = (_gameInfo.sizeOneFigure.height * 0.21);
+        const unsigned maxSpeed = (_info.sizeOneFigure.height * 0.21);
         rotate(DEFAULT_TIME_REMAINS, maxSpeed, stop);
         if (stop == true) _state = State::SCORING;
       }
@@ -90,7 +90,7 @@ void SlotMachine::UserInput(const Action& action) {
 
     case State::SCORING: {
       ScoreManager manager(_drums.getFigureWins());
-      _gameInfo.point = manager.getScore();
+      _info.point = manager.getScore();
       _state = State::START;
       break;
     }
@@ -101,7 +101,7 @@ void SlotMachine::UserInput(const Action& action) {
   }
 }
 
-GameInfo SlotMachine::getGameInfoForUpdateView(void) {
-  _gameInfo.data = _drums.getDrums();
-  return _gameInfo;
+SlotMachineInfo SlotMachine::getGameInfoForUpdateView(void) {
+  _info.data = _drums.getDrums();
+  return _info;
 }
