@@ -131,6 +131,7 @@ SlotMachineView::SlotMachineView(QWidget *parent) : QWidget(parent) {
 
     setLayout(mainLayout);
     setStyleSheet("background-color: darkgray;");
+    resize(1800, 900);
     isGood = true;
   } catch (const std::exception &e) {
     std::cerr << e.what() << '\n';
