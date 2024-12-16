@@ -47,8 +47,8 @@ class SlotMachineView : public QWidget {
 
   void DrawFigure(const FigureType &, int x, int y, int width, int height);
   void drawStar(QPainter &painter, int x, int y, int width, int height);
-  void drawTriangle(QPainter &painter, int x1, int y1, int x2, int y2, int x3,
-                    int y3);
+  void drawTriangle(QPainter &painter, const Qt::GlobalColor &color, int x1,
+                    int y1, int x2, int y2, int x3, int y3);
   void drawTriangle(QPainter &painter, int x, int y, int width, int height);
   void drawSquare(QPainter &painter, int x, int y, int width, int height);
   void drawCircle(QPainter &painter, int x, int y, int width, int height);

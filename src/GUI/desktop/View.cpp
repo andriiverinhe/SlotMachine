@@ -18,13 +18,43 @@ bool SlotMachineView::createBtn() {
   bool code = false;
 
   try {
-    _startBtn = new QPushButton("Start", this);
-    _stopBtn = new QPushButton("Stop", this);
+    _startBtn = new QPushButton("START", this);
+    _stopBtn = new QPushButton("STOP", this);
 
     if (_startBtn == nullptr || _stopBtn == nullptr) return false;
 
     _startBtn->setFixedHeight(50);
     _stopBtn->setFixedHeight(50);
+
+    _startBtn->setStyleSheet(
+        "QPushButton {"
+        "background-color: #18e014;"
+        "color: white;"
+        "font-size: 16px;"
+        "border: 2px solid #287f26;"
+        "border-radius: 10px;"
+        "}"
+        "QPushButton:hover {"
+        "background-color: #1a5c19;" 
+        "}"
+        "QPushButton:pressed {"
+        "background-color: #287f26;" 
+        "}");
+
+    _stopBtn->setStyleSheet(
+        "QPushButton {"
+        "background-color: #eb1a28;" 
+        "color: white;"
+        "font-size: 16px;"
+        "border: 2px solid #661616;"
+        "border-radius: 10px;"
+        "}"
+        "QPushButton:hover {"
+        "background-color: #cf4848;" 
+        "}"
+        "QPushButton:pressed {"
+        "background-color: #661616;"
+        "}");
 
     code = true;
   } catch (const std::exception &e) {
@@ -47,18 +77,20 @@ bool SlotMachineView::createResultLabel() {
     _resultFrame->setFrameShape(QFrame::StyledPanel);
     _resultFrame->setFrameShadow(QFrame::Raised);
     _resultFrame->setLineWidth(2);
+    _resultFrame->setStyleSheet(
+        "background-color: white; border-radius: 10px;");
 
     _resultLabel = new QLabel("Winning: 0", this);
     if (_resultLabel == nullptr) return false;
 
     QFont font("Arial", 16, QFont::Bold);
     _resultLabel->setFont(font);
-
     _resultLabel->setAlignment(Qt::AlignCenter);
+    _resultLabel->setStyleSheet("color: black;");
 
     QVBoxLayout *resultLayout = new QVBoxLayout(_resultFrame);
-
     if (resultLayout == nullptr) return false;
+
     resultLayout->addWidget(_resultLabel);
     resultLayout->setContentsMargins(10, 10, 10, 10);
 
@@ -98,6 +130,7 @@ SlotMachineView::SlotMachineView(QWidget *parent) : QWidget(parent) {
     mainLayout->setContentsMargins(margin, margin, margin, margin);
 
     setLayout(mainLayout);
+    setStyleSheet("background-color: darkgray;");
     isGood = true;
   } catch (const std::exception &e) {
     std::cerr << e.what() << '\n';
@@ -160,6 +193,9 @@ void SlotMachineView::DrawFigure(const FigureType &type, int x, int y,
 
   QPainter painter(this);
   painter.setClipRect(margin, margin, fieldWidth + 1, fieldHeight + 1);
+  painter.setBrush(Qt::white);
+  painter.setPen(Qt::black);
+
   painter.drawRect(x, y, width, height);
 
   switch (type) {
@@ -179,6 +215,9 @@ void SlotMachineView::DrawFigure(const FigureType &type, int x, int y,
     default:
       break;
   }
+  painter.setPen(Qt::black);
+  painter.drawLine(margin, margin + fieldHeight, margin + fieldWidth,
+                   margin + fieldHeight);
 }
 
 void SlotMachineView::drawStar(QPainter &painter, int x, int y, int width,
@@ -214,20 +253,23 @@ void SlotMachineView::drawStar(QPainter &painter, int x, int y, int width,
   const int x6 = x1 + offset_x2;  // right bottom
   const int y6 = y5;              // right bottom
 
-  drawTriangle(painter, x1, y1, x5, y5, x2, y2);
-  drawTriangle(painter, x1, y1, x6, y6, x2, y2);
-  drawTriangle(painter, x3, y3, x4, y4, x2, y2);
+  drawTriangle(painter, Qt::cyan, x1, y1, x5, y5, x2, y2);
+  drawTriangle(painter, Qt::cyan, x1, y1, x6, y6, x2, y2);
+  drawTriangle(painter, Qt::cyan, x3, y3, x4, y4, x2, y2);
 }
 
-void SlotMachineView::drawTriangle(QPainter &painter, int x1, int y1, int x2,
-                                   int y2, int x3, int y3) {
+void SlotMachineView::drawTriangle(QPainter &painter,
+                                   const Qt::GlobalColor &color, int x1, int y1,
+                                   int x2, int y2, int x3, int y3) {
   QPainterPath path;
   path.moveTo(x1, y1);
   path.lineTo(x2, y2);
   path.lineTo(x3, y3);
   path.closeSubpath();
 
-  painter.setBrush(Qt::black);
+  painter.setBrush(color);
+  painter.setPen(color);
+
   painter.drawPath(path);
 }
 
@@ -245,12 +287,13 @@ void SlotMachineView::drawTriangle(QPainter &painter, int x, int y, int width,
   const int x3 = x + padding + (width - padding2);
   const int y3 = y + padding + (height - padding2);
 
-  drawTriangle(painter, x1, y1, x2, y2, x3, y3);
+  drawTriangle(painter, Qt::green, x1, y1, x2, y2, x3, y3);
 }
 
 void SlotMachineView::drawSquare(QPainter &painter, int x, int y, int width,
                                  int height) {
-  painter.setBrush(Qt::black);
+  painter.setBrush(Qt::yellow);
+  painter.setPen(Qt::yellow);
   const int padding = 30;
   const int padding2 = padding * 2;
   painter.drawRect(x + padding, y + padding, width - padding2,
@@ -259,7 +302,9 @@ void SlotMachineView::drawSquare(QPainter &painter, int x, int y, int width,
 
 void SlotMachineView::drawCircle(QPainter &painter, int x, int y, int width,
                                  int height) {
-  painter.setBrush(Qt::black);
+  painter.setBrush(Qt::red);
+  painter.setPen(Qt::red);
+
   const int padding = 30;
   const int padding2 = padding * 2;
   painter.drawEllipse(x + padding, y + padding, width - padding2,
