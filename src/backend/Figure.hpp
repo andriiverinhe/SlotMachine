@@ -1,5 +1,7 @@
 #pragma once
 
+constexpr int COUNT_FIGURE = 4;
+
 struct Coordinates {
   int x;
   int y;
@@ -10,10 +12,8 @@ struct Size {
   int height;
 };
 
-constexpr int COUNT_FIGURE = 4;
 enum class FigureType { circle = 0, triangle, square, star };
-
-enum class Direction { Up, Down, Left, Right, No };
+enum class Direction { Up = 0, Down, Left, Right, No };
 
 class Figure {
  private:

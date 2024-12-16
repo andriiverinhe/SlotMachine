@@ -1,6 +1,7 @@
 #include "Drum.hpp"
 
 #include <cmath>
+
 Drum::Drum(const unsigned& countFigure, const Coordinates& startPos,
            const Size& sizeOneFigure) {
   CreateDrum(countFigure, startPos, sizeOneFigure);
@@ -39,6 +40,9 @@ void Drum::rotation(const unsigned& size) {
 
   const Direction& H = _direction[DIRECTION_HORIZONTAL];
   const Direction& V = _direction[DIRECTION_VERTICAL];
+
+  const unsigned value =
+      (size > (_sizeOneFigure.height / 2)) ? (_sizeOneFigure.height / 2) : size;
 
   for (auto& figure : _drum) {
     figure.move(H, size, V, size);

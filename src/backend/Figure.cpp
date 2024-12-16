@@ -1,4 +1,5 @@
 #include "Figure.hpp"
+
 #include <random>
 
 Figure::Figure(const FigureType& type, const Coordinates& location,

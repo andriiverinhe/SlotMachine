@@ -19,8 +19,8 @@ constexpr unsigned MINIMUM_NUMBER_OF_MATCHES = 3;
 
 constexpr unsigned POINT_FOR_ONE_CIRCLE = 10;
 constexpr unsigned POINT_FOR_ONE_TRIANGLE = 30;
-constexpr unsigned POINT_FOR_ONE_SQUERE = 60;
-constexpr unsigned POINT_FOR_ONE_STAR = 100;
+constexpr unsigned POINT_FOR_ONE_SQUERE = 90;
+constexpr unsigned POINT_FOR_ONE_STAR = 150;
 
 class ScoreManager {
  private:
